@@ -36,7 +36,7 @@ def extract_video_id(value):
         return match.group(1)
     if re.fullmatch(r"[A-Za-z0-9_-]{11}", value):
         return value
-    sys.exit(f"Could not find a YouTube video ID in: {value}")
+    raise ValueError(f"Could not find a YouTube video ID in: {value}")
 
 
 def get_video_title(video_id):
@@ -107,7 +107,10 @@ def main():
     parser.add_argument("-o", "--output", help="output file (default: <video_id>.<lang>.<format>)")
     args = parser.parse_args()
 
-    video_id = extract_video_id(args.video)
+    try:
+        video_id = extract_video_id(args.video)
+    except ValueError as e:
+        sys.exit(str(e))
     try:
         transcripts = list(YouTubeTranscriptApi().list(video_id))
     except Exception as e:

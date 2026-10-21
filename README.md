@@ -73,3 +73,36 @@ Saved Japanese subtitles to My Video - abc123XYZ_0.Japanese.txt
   hasn't generated them.
 - **The pick-a-number prompt freezes in Git Bash** – run it as
   `winpty python yt_transcript.py …`, or use `--lang` to skip the prompt.
+
+## Web page (web.py)
+
+The same downloader as a small password-protected web page, so a few people can
+use it from a browser: paste a link, pick a language and format, click Download.
+
+It runs on your own computer and is shared through a free
+[Cloudflare quick tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/),
+so YouTube sees requests coming from your home connection (YouTube blocks most
+cloud-server IPs, which is why this isn't hosted on a cloud service).
+
+### Setup (once)
+
+1. `pip install -r requirements.txt`
+2. Install cloudflared: `winget install --id Cloudflare.cloudflared`
+3. Choose a password and save it: `echo 'your-password' > .subs_password`
+   (this file is git-ignored)
+
+### Start it
+
+```bash
+./start.sh
+```
+
+Look for the `https://....trycloudflare.com` link in the output and send it, with
+the password, to the people using it. When the browser asks for a login, any
+username works; only the password is checked.
+
+- The page works only while `start.sh` is running and your computer is on.
+- **The link changes every time `start.sh` restarts.** For a permanent address you
+  need a domain on a Cloudflare account and a named tunnel.
+- To run only the page locally without a tunnel:
+  `SUBS_PASSWORD=your-password python web.py`, then open http://127.0.0.1:8080

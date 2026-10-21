@@ -1,2 +1,4 @@
 youtube-transcript-api>=1.2
 requests
+flask>=3.0
+waitress>=3.0
