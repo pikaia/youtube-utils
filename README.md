@@ -86,40 +86,38 @@ cloud-server IPs, which is why this isn't hosted on a cloud service).
 
 ### Setup (once)
 
-1. `pip install -r requirements.txt`
-2. Install cloudflared: `winget install --id Cloudflare.cloudflared`
-3. Choose a password and save it: `echo 'your-password' > .subs_password`
-   (this file is git-ignored)
-
-### Start it
-
 ```bash
-./start.sh
+pip install -r requirements.txt
+winget install --id Cloudflare.cloudflared
+./subs.sh password        # choose the shared password (stored in .subs_password, git-ignored)
+./subs.sh autostart on    # optional: start automatically when you log in to Windows
 ```
 
-The current public link is printed and saved to `current_link.txt`. Send it, with
-the password, to the people using it. When the browser asks for a login, any
-username works; only the password is checked.
+### Everyday use
 
-- **The link changes every time the tunnel restarts.** A permanent address needs a
-  domain on a Cloudflare account and a named tunnel.
-- If the tunnel drops, `start.sh` restarts it (with a new link).
-- Logs are in `logs/`; every link that was handed out is listed in `logs/links.log`.
+Everything is managed with `subs.sh`:
+
+```bash
+./subs.sh start           # start in the background; prints the link once it's live
+./subs.sh link            # print the current link
+./subs.sh status          # running or not, current link, autostart on/off
+./subs.sh restart         # stop and start again (new link)
+./subs.sh stop            # stop everything
+./subs.sh logs            # recent log output
+./subs.sh autostart off   # stop starting automatically at login
+```
+
+It keeps running after you close the terminal. Send the link, with the password,
+to the people using it. When the browser asks for a login, any username works;
+only the password is checked.
+
+- **The link changes every time the tunnel restarts** (reboot, `restart`, or a
+  dropped connection, which it recovers from automatically). Check it with
+  `./subs.sh link`; every link handed out is listed in `logs/links.log`.
+  A permanent address needs a domain on a Cloudflare account and a named tunnel.
+- A new link can take about a minute before it works; `start` waits for that.
+- `start.sh` runs everything in the foreground if you'd rather watch it directly.
+  `autostart.vbs` is the hidden launcher `subs.sh` uses so it survives closing
+  the terminal.
 - To run only the page locally without a tunnel:
   `SUBS_PASSWORD=your-password python web.py`, then open http://127.0.0.1:8080
-
-### Start automatically when you log in to Windows
-
-`autostart.vbs` runs `start.sh` hidden, with no window, and opens the new link in
-Notepad so you can copy it. To enable it, put a shortcut to it in your Startup
-folder (press Win+R, type `shell:startup`):
-
-- Target: `C:\Windows\System32\wscript.exe "<path-to-repo>\autostart.vbs"`
-
-To disable it, delete that shortcut.
-
-### Stop it
-
-```bash
-./stop.sh
-```

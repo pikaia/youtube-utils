@@ -2,7 +2,6 @@
 # Start the subtitle web page and share it through a free Cloudflare quick tunnel.
 # The password comes from $SUBS_PASSWORD or, if unset, the .subs_password file.
 # The current public link is written to current_link.txt; logs go to logs/.
-# Set SUBS_NOTIFY=1 to open the link in Notepad whenever a new one is created.
 set -uo pipefail
 cd "$(dirname "$0")"
 
@@ -48,9 +47,6 @@ while true; do
         echo "$link" > current_link.txt
         echo "$(date '+%Y-%m-%d %H:%M') $link" >> logs/links.log
         echo "Public link: $link"
-        if [ "${SUBS_NOTIFY:-}" = "1" ]; then
-            notepad.exe current_link.txt &
-        fi
     else
         echo "Tunnel didn't start; see logs/tunnel.log" >&2
     fi

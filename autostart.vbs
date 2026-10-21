@@ -3,5 +3,4 @@
 Set shell = CreateObject("WScript.Shell")
 Set fso = CreateObject("Scripting.FileSystemObject")
 folder = fso.GetParentFolderName(WScript.ScriptFullName)
-shell.Environment("Process")("SUBS_NOTIFY") = "1"
 shell.Run """C:\Program Files\Git\bin\bash.exe"" -l """ & folder & "\start.sh""", 0, False
