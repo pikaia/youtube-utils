@@ -1,0 +1,8 @@
+# Downloaded transcripts
+*.txt
+*.srt
+*.vtt
+*.json
+!requirements.txt
+
+__pycache__/
