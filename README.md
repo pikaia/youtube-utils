@@ -97,12 +97,29 @@ cloud-server IPs, which is why this isn't hosted on a cloud service).
 ./start.sh
 ```
 
-Look for the `https://....trycloudflare.com` link in the output and send it, with
+The current public link is printed and saved to `current_link.txt`. Send it, with
 the password, to the people using it. When the browser asks for a login, any
 username works; only the password is checked.
 
-- The page works only while `start.sh` is running and your computer is on.
-- **The link changes every time `start.sh` restarts.** For a permanent address you
-  need a domain on a Cloudflare account and a named tunnel.
+- **The link changes every time the tunnel restarts.** A permanent address needs a
+  domain on a Cloudflare account and a named tunnel.
+- If the tunnel drops, `start.sh` restarts it (with a new link).
+- Logs are in `logs/`; every link that was handed out is listed in `logs/links.log`.
 - To run only the page locally without a tunnel:
   `SUBS_PASSWORD=your-password python web.py`, then open http://127.0.0.1:8080
+
+### Start automatically when you log in to Windows
+
+`autostart.vbs` runs `start.sh` hidden, with no window, and opens the new link in
+Notepad so you can copy it. To enable it, put a shortcut to it in your Startup
+folder (press Win+R, type `shell:startup`):
+
+- Target: `C:\Windows\System32\wscript.exe "<path-to-repo>\autostart.vbs"`
+
+To disable it, delete that shortcut.
+
+### Stop it
+
+```bash
+./stop.sh
+```

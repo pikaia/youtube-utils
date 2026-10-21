@@ -9,3 +9,4 @@ __pycache__/
 
 # Web page password
 .subs_password
+logs/
