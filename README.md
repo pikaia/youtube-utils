@@ -1,5 +1,7 @@
 # youtube-utils
 
+[![How to Download YouTube Subtitles & Transcripts (No API Key Required!)](https://img.youtube.com/vi/nc3v6CuayCY/maxresdefault.jpg)](https://youtu.be/nc3v6CuayCY)
+
 ▶️ **[Watch the video walkthrough on YouTube](https://youtu.be/nc3v6CuayCY)**
 
 Small command-line tools for working with YouTube videos.
