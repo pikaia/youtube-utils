@@ -1,5 +1,7 @@
 # youtube-utils
 
+▶️ **[Watch the video walkthrough on YouTube](https://youtu.be/nc3v6CuayCY)**
+
 Small command-line tools for working with YouTube videos.
 
 ## yt_transcript.py
