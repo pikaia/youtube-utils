@@ -119,7 +119,18 @@ only the password is checked.
   dropped connection, which it recovers from automatically). Check it with
   `./subs.sh link`; every link handed out is listed in `logs/links.log`.
   A permanent address needs a domain on a Cloudflare account and a named tunnel.
+- **The link is watched.** The link monitor in [`../whatsapp`](../whatsapp)
+  probes the current link every five minutes from this PC. When the link
+  is confirmed dead it restarts the tunnel (or the whole service, if the
+  local page is down too) and posts the new link to the RM Slides
+  WhatsApp group on its own, so users get the new address without having
+  to ask. Its verdict log is `../whatsapp/logs/link_watch.log`.
 - A new link can take about a minute before it works; `start` waits for that.
+- Known wart: `start` waits for the fresh link to answer with a password
+  prompt (HTTP 401), but the home page has answered 200 without one since
+  the link-preview fix, so `start` ends with a caution that the link is
+  not reachable yet after about two minutes even on a successful start.
+  `./subs.sh status` tells the truth.
 - `start.sh` runs everything in the foreground if you'd rather watch it directly.
   `autostart.vbs` is the hidden launcher `subs.sh` uses so it survives closing
   the terminal.
