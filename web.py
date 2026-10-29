@@ -23,6 +23,8 @@ app = Flask(__name__)
 
 @app.before_request
 def require_password():
+    if request.path == "/":
+        return None
     auth = request.authorization
     if auth and auth.password and hmac.compare_digest(auth.password, PASSWORD):
         return None
@@ -107,7 +109,10 @@ PAGE = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Subtitle Downloader</title>
+<title>YouTube Subtitle Downloader</title>
+<meta property=\"og:title\" content=\"YouTube Subtitle Downloader\">
+<meta property=\"og:description\" content=\"Download subtitles from a YouTube video: paste a link, pick a language and a format (text, SRT, WebVTT or JSON), and save the file. Human-written and auto-generated tracks are listed.\">
+<meta property=\"og:type\" content=\"website\">
 <style>
   :root {
     --bg: #f6f7f9; --card: #ffffff; --text: #1d2330; --muted: #5d6676;
